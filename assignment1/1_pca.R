@@ -16,10 +16,9 @@ wvs$V_protect_environment_stand <- scale(wvs$V_protect_environment, center = TRU
 wvs$V_tradition_stand <- scale(wvs$V_tradition, center = TRUE, scale = TRUE)
 
 
-
-#wvs_values <- wvs[1:10]
-#wvs_values_standardized <- scale(wvs_values, center=TRUE, scale=TRUE)
-
 # compute matrix of 34 countries x 10 variables (mean score on standardized var)
+country_value_matrix <- aggregate(wvs[,33:43], list(wvs$country), mean)
+
+
 # apply PCA
 # make biplot
