@@ -38,7 +38,7 @@ A
 screeplot(pca_1, type="lines")
 # kaisers rule: how is this for standardized variables?
 # scree plot: 2 because elbow at 3
-# TODO: boostrapped screeplot
+# TODO: boostrapped screeplot (horns procedure)
 
 
 #### PCA: FINAL MODEL
