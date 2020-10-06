@@ -25,7 +25,7 @@ country_value_matrix <- aggregate(wvs[,33:43], list(wvs$country), mean)
 #### PCA
 ########
 
-## apply PCA on all variables
+## apply PCA with #variables=#components
 #
 pca_1 <- prcomp(country_value_matrix)
 # eigenvalues
