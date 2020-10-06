@@ -22,8 +22,8 @@ wvs$V_tradition_stand <- scale(wvs$V_tradition, center = TRUE, scale = TRUE)
 country_value_matrix <- aggregate(wvs[,33:43], list(wvs$country), mean)
 
 
-#### PCA
-########
+#### PCA: PRE-ANALYSIS
+######################
 
 ## apply PCA with #variables=#components
 #
@@ -33,8 +33,14 @@ round(pca_1$sdev^2,3)
 # component loadings
 A <- pca_1$rotation%*%diag(pca_1$sdev)
 
+
 ## Determine number of components
 screeplot(pca_1, type="lines")
 
+
+#### PCA: FINAL MODEL
+#####################
+
+## fit model
 
 ## Make biplot
