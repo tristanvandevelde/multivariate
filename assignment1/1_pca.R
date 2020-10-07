@@ -22,8 +22,8 @@ wvs$V_tradition_stand <- scale(wvs$V_tradition, center = TRUE, scale = TRUE)
 country_value_matrix <- aggregate(wvs[,33:43], list(wvs$country), mean)
 # TODO: do something about the warning
 
-#### PCA: PRE-ANALYSIS
-######################
+#### PCA: MODEL FITTING
+#######################
 
 ## apply PCA with #variables=#components
 #
@@ -34,7 +34,9 @@ round(pca_1$sdev^2,3)
 A <- pca_1$rotation%*%diag(pca_1$sdev)
 A
 
-## Determine number of components
+#### PCA: COMPONENTS CHOICE
+###########################
+
 screeplot(pca_1, type="lines")
 abline(h=1, col="blue", lty=2)
 abline(v=3, col="red", lty=3)
@@ -52,9 +54,19 @@ legend(8,3, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("bla
 # include 95% CIs
 # conclusion: 2
 
-#### PCA: FINAL MODEL
-#####################
+round(diag(A[,1:2]%*%t(A[,1:2])),2)
+# not looking good
+round(diag(A[,1:3]%*%t(A[,1:3])),2)
+# not much change
+round(diag(A[,1:1]%*%t(A[,1:1])),2)
+# why is this not working?
+round(diag(A[,1:10]%*%t(A[,1:10])),2)
 
-## fit model
+### Suspection ###
+# overall: PCA not suitable, not good model for this data. May be due to correlation among variables? not sure, maybe other explanation?
+# however: 2 seems optimal number of components. imporvement over 1, not much improvement when going any higher than 2.
 
-## Make biplot
+# possible explanations: features have non-linear relationship, no relationship
+# or maybe because already working with consolodated data???? -> do not work with country grouped data???
+
+#### PCA: PREDICTION & INTERPRETATION
