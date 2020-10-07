@@ -28,9 +28,6 @@ justifiability_stand$J_parents_beating_children <- scale(justifiability_stand$J_
 justifiability_stand$J_violence <- scale(justifiability_stand$J_violence, center = TRUE, scale = TRUE)
 
 
-
-# use EFA
-
 #### EFA MODELLING
 ##################
 
@@ -49,8 +46,7 @@ abline(v=4, col="red", lty=2)
 # Consistent with our intuition (3 factors: financial, sexual, violence)
 
 
-
-### STEP 2: FIT EFA WITH 3 FACTORS
+### STEP 2: FIT MODELS
 # orthogonal 3
 efa_just_3_orthogonal <- factanal(wvs_stand[1:14], 3, rotation = "varimax")
 efa_just_3_orthogonal$loadings[1:14,]
@@ -61,6 +57,6 @@ print(fa_just_3, cutoff=0)
 
 
 # safe factor scores and visualize for each factor the distribution for the 34 countries
-
+### STEP 3: PREDICTION & VISUALIZATION
 par(pty="s")
 plot(favm_pain2$loadings,xlim=c(-1,1),ylim=c(-1,1),cex=1.2)
