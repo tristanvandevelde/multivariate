@@ -37,19 +37,20 @@ A
 ## Determine number of components
 screeplot(pca_1, type="lines")
 abline(h=1, col="blue", lty=2)
-abline(v=4, col="red", lty=3)
-# TODO: boostrapped screeplot (horns procedure)
-bootstrap <- matrix(rep(0,34*10), ncol=10)
+abline(v=3, col="red", lty=3)
+# conclusion: 3 (Kaisers rule) or 2 (scree plot)
+bootstrap <- matrix(rep(0,34*10), ncol=10) #ok
 for (i in 1:10) {
   samp <- sample(seq(1,34), size=34, replace=TRUE)
-  bootstrap[,i] <- country_value_matrix[samp, i]
+  bootstrap[,i] <- country_value_matrix[samp, i+2] # +2 because first 2 variables not needed
 }
 # maybe standardize this thing?
-# pcbootstrap <- prcomp(bootstrap)
-# not all variables filled in: fix this
-
-
-
+pca_bootstrapped <- prcomp(bootstrap)
+plot(c(1:10),pca_1$sdev[1:10]^2, type="b", xlab="component", ylab="eigenvalue")
+lines(c(1:10),pca_bootstrapped$sdev[1:10]^2, type="b", col="red")
+legend(8,3, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("black", "red"))
+# include 95% CIs
+# conclusion: 2
 
 #### PCA: FINAL MODEL
 #####################
