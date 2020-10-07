@@ -41,6 +41,8 @@ ggcorrplot(cormat)
 ### STEP 1: FIT PCA TO DETERMINE AMOUNT OF FACTORS
 pca_just <- prcomp(wvs_stand[c(1:14)])
 screeplot(pca_just, type="lines")
+abline(h=1, col="blue", lty=2)
+abline(v=4, col="red", lty=2)
 # both scree plot and kaisers criterium indicate te retain 3 facts
 # Consistent with our intuition (3 factors: financial, sexual, violence)
 
