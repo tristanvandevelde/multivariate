@@ -4,6 +4,7 @@ library(ggcorrplot)
 library(xtable)
 library(psych)
 library(GPArotation)
+library(maptools)
 #load("data/wvs.Rdata")
 load("/Users/tristanvandevelde/Documents/Dev/multivariate/assignment1/data/wvs.Rdata")
 
@@ -58,5 +59,21 @@ print(fa_just_3, cutoff=0)
 
 # safe factor scores and visualize for each factor the distribution for the 34 countries
 ### STEP 3: PREDICTION & VISUALIZATION
+## Factor 1 and 2
 par(pty="s")
-plot(favm_pain2$loadings,xlim=c(-1,1),ylim=c(-1,1),cex=1.2)
+plot(efa_justifiability_3_oblique$loadings[,1:2],xlim=c(-1,1),ylim=c(-1,1),cex=1.2)
+pointLabel(efa_justifiability_3_oblique$loadings[,1:2], rownames(efa_justifiability_3_oblique$loadings[,1:2]), cex=1.2)
+abline(h=0)
+abline(v=0)
+## Factor 2 and 3
+par(pty="s")
+plot(efa_justifiability_3_oblique$loadings[,c(1,3)],xlim=c(-1,1),ylim=c(-1,1),cex=1.2)
+pointLabel(efa_justifiability_3_oblique$loadings[,c(1,3)], rownames(efa_justifiability_3_oblique$loadings[,c(1,3)]), cex=1.2)
+abline(h=0)
+abline(v=0)
+## Factor 1 and 3
+par(pty="s")
+plot(efa_justifiability_3_oblique$loadings[,2:3],xlim=c(-1,1),ylim=c(-1,1),cex=1.2)
+pointLabel(efa_justifiability_3_oblique$loadings[,2:3], rownames(efa_justifiability_3_oblique$loadings[,2:3]), cex=1.2)
+abline(h=0)
+abline(v=0)
