@@ -2,6 +2,8 @@ library(MASS)
 library(ggplot2)
 library(ggcorrplot)
 library(xtable)
+library(psych)
+library(GPArotation)
 #load("data/wvs.Rdata")
 load("/Users/tristanvandevelde/Documents/Dev/multivariate/assignment1/data/wvs.Rdata")
 
@@ -49,10 +51,13 @@ abline(v=4, col="red", lty=2)
 
 
 ### STEP 2: FIT EFA WITH 3 FACTORS
-fa_just <- factanal(~J_claiming_benefits+J_avoiding_fare+J_stealing_property+J_cheating_taxes+J_accept_bribe+J_homosexuality+J_prostitution+J_abortion+J_divorce+J_sex_before_marriage+J_suicide+J_beat_wife+J_parents_beating_children+J_violence, factors = 3, rotation="varimax", data=wvs_stand)
-fa_just$loadings[1:14,]
-print(xtable(fa_just$loadings[1:14,]))
+# orthogonal 3
+fa_just_3_orthogonal <- factanal(wvs_stand[1:14], 3, rotation = "varimax")
+fa_just_3_orthogonal$loadings[1:14,]
 
+# oblique 3 (we expect this to be the best model)
+fa_just_3_oblique <- fa(wvs_stand[1:14], 3, rotate="oblimin", fm="mle")
+print(fa_just_3, cutoff=0)
 
 #fa_just = <- factanal
 
