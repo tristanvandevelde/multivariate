@@ -1,6 +1,7 @@
 library(MASS)
 library(ggplot2)
-library(ggcorplot)
+library(ggcorrplot)
+library(xtable)
 #load("data/wvs.Rdata")
 load("/Users/tristanvandevelde/Documents/Dev/multivariate/assignment1/data/wvs.Rdata")
 
@@ -47,7 +48,8 @@ screeplot(pca_just, type="lines")
 
 ### STEP 2: FIT EFA WITH 3 FACTORS
 fa_just <- factanal(~J_claiming_benefits+J_avoiding_fare+J_stealing_property+J_cheating_taxes+J_accept_bribe+J_homosexuality+J_prostitution+J_abortion+J_divorce+J_sex_before_marriage+J_suicide+J_beat_wife+J_parents_beating_children+J_violence, factors = 3, rotation="varimax", data=wvs_stand)
-
+fa_just$loadings[1:14,]
+print(xtable(fa_just$loadings[1:14,]))
 
 
 #fa_just = <- factanal
