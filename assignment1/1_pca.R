@@ -31,11 +31,7 @@ country_value_matrix <- aggregate(wvs[,33:43], list(wvs$country), mean)
 
 #### MODEL FITTING
 pca_individual <- prcomp(values_stand[c(1:10)])
-# eigenvalues
-round(pca_individual$sdev^2,3)
-# component loadings
-A_individual <- pca_individual$rotation%*%diag(pca_individual$sdev)
-A_individual
+
 
 #### COMPONENTS DETERMINATION
 # kaiser and screeplot
@@ -56,17 +52,24 @@ plot(c(1:10),pca_individual$sdev[1:10]^2, type="b", xlab="component", ylab="eige
 lines(c(1:10),pca_bootstrapped_individual$sdev[1:10]^2, type="b", col="red")
 legend(8,3, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("black", "red"))
 # include 95% CIs
-# conclusion: 2
+
+#### ANALYSIS & INTERPRETATION
+# eigenvalues
+round(pca_individual$sdev^2,3)
+# component loadings
+A_individual <- pca_individual$rotation%*%diag(pca_individual$sdev)
+A_individual
+summary(pca_individual)
 
 round(diag(A_individual[,1:2]%*%t(A_individual[,1:2])),2)
 # actually still not extremely convincing
 round(diag(A_individual[,1:3]%*%t(A_individual[,1:3])),2) # probably best model. Weird, because not concsistent with all other measures
-# already a bunch better
-round(diag(A_individual[,1:4]%*%t(A_individual[,1:4])),2)
-# still getting better
-round(diag(A_individual[,1:5]%*%t(A_individual[,1:5])),2)
-# not a lot of improvement anymore
+
 
 #### PREDICTION
-
+loadings_countries <- data.matrix(country_value_matrix[,3:12])%*%data.matrix(pca_individual$rotation[,1:2])
 #### BIPLOT
+biplot(pca_individual(country_value_matrix[,3:12]))
+biplot(princomp(country_value_matrix[,3:12]))
+
+screeplot(princomp(country_value_matrix[,3:12]), type="lines")
