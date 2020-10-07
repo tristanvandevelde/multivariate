@@ -53,6 +53,7 @@ A_individual
 screeplot(pca_individual, type="lines")
 abline(h=1, col="blue", lty=2)
 abline(v=3, col="red", lty=3)
+# conclusion: 2
 # bootstrapped
 bootstrap_individual <- matrix(rep(0,34*10), ncol=10) #ok
 for (i in 1:10) {
@@ -66,6 +67,24 @@ lines(c(1:10),pca_bootstrapped_individual$sdev[1:10]^2, type="b", col="red")
 legend(8,3, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("black", "red"))
 # include 95% CIs
 # conclusion: 2
+
+round(diag(A_individual[,1:2]%*%t(A_individual[,1:2])),2)
+# actually still not extremely convincing
+round(diag(A_individual[,1:3]%*%t(A_individual[,1:3])),2) # probably best model. Weird, because not concsistent with all other measures
+# already a bunch better
+round(diag(A_individual[,1:4]%*%t(A_individual[,1:4])),2)
+# still getting better
+round(diag(A_individual[,1:5]%*%t(A_individual[,1:5])),2)
+# not a lot of improvement anymore
+
+# not looking good
+#round(diag(A[,1:3]%*%t(A[,1:3])),2)
+# not much change
+#round(diag(A[,1:1]%*%t(A[,1:1])),2)
+# why is this not working?
+#round(diag(A[,1:10]%*%t(A[,1:10])),2)
+
+## AWESOME, IT'S FINALLY WORKING: 2 COMPONENTS IS AGREED UPON BY ALL METRICS.
 
 ###################################
 ####### PCA ON COUNTRY DATA #######
