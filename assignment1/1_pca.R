@@ -36,9 +36,19 @@ A
 
 ## Determine number of components
 screeplot(pca_1, type="lines")
-# kaisers rule: how is this for standardized variables?
+# kaisers rule: how is this for standardized variables? (I think retain 3)
 # scree plot: 2 because elbow at 3
 # TODO: boostrapped screeplot (horns procedure)
+bootstrap <- matrix(rep(0,34*10), ncol=10)
+for (i in 1:10) {
+  samp <- sample(seq(1,34), size=34, replace=TRUE)
+  bootstrap[,i] <- country_value_matrix[samp, i]
+}
+# maybe standardize this thing?
+# pcbootstrap <- prcomp(bootstrap)
+# not all variables filled in: fix this
+
+
 
 
 #### PCA: FINAL MODEL
