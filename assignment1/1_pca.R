@@ -21,55 +21,43 @@ values_stand$V_tradition <- scale(wvs$V_tradition, center = TRUE, scale = TRUE)
 
 
 # compute matrix of 34 countries x 10 variables (mean score on standardized var)
-country_value_matrix <- aggregate(wvs[,33:43], list(wvs$country), mean)
-# TODO: do something about the warning
+values_country <- aggregate(values_stand[,1:10], list(values_stand$country), mean)
 
-
-###################################
-####### PCA ON INDIVIDUAL DATA ####
-###################################
+################################
+####### PCA ON COUNTRY DATA ####
+################################
 
 #### MODEL FITTING
-pca_individual <- prcomp(values_stand[c(1:10)])
-
+values_country[,2:11] <- scale(values_country[,2:11], center = TRUE, scale = TRUE)
+pca_country <- prcomp(values_country[,2:11])
 
 #### COMPONENTS DETERMINATION
 # kaiser and screeplot
-screeplot(pca_individual, type="lines")
+screeplot(pca_country, type="lines")
 abline(h=1, col="blue", lty=2)
 abline(v=3, col="red", lty=3)
 # conclusion: 2
 # bootstrapped
-bootstrap_individual <- matrix(rep(0,34*10), ncol=10) #ok
+bootstrap_country <- matrix(rep(0,34*10), ncol=10) #ok
 for (i in 1:10) {
   samp <- sample(seq(1,34), size=34, replace=TRUE)
-  bootstrap_individual[,i] <- values_stand[samp, i] # +2 because first 2 variables not needed
+  bootstrap_country[,i] <- values_stand[samp, i] # +2 because first 2 variables not needed
 }
-bootstrap_individual <- scale(bootstrap_individual, center = TRUE, scale = TRUE)
+bootstrap_country <- scale(bootstrap_country, center = TRUE, scale = TRUE)
 # maybe standardize this thing?
-pca_bootstrapped_individual <- prcomp(bootstrap_individual)
-plot(c(1:10),pca_individual$sdev[1:10]^2, type="b", xlab="component", ylab="eigenvalue")
-lines(c(1:10),pca_bootstrapped_individual$sdev[1:10]^2, type="b", col="red")
+pca_bootstrapped_country <- prcomp(bootstrap_country)
+plot(c(1:10),pca_country$sdev[1:10]^2, type="b", xlab="component", ylab="eigenvalue")
+lines(c(1:10),pca_bootstrapped_country$sdev[1:10]^2, type="b", col="red")
 legend(8,3, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("black", "red"))
 # include 95% CIs
 
 #### ANALYSIS & INTERPRETATION
 # eigenvalues
-round(pca_individual$sdev^2,3)
+round(pca_country$sdev^2,3)
 # component loadings
-A_individual <- pca_individual$rotation%*%diag(pca_individual$sdev)
-A_individual
-summary(pca_individual)
+A_country <- pca_country$rotation%*%diag(pca_country$sdev)
+A_country
+summary(pca_country)
+round(diag(A_country[,1:2]%*%t(A_country[,1:2])),2)
 
-round(diag(A_individual[,1:2]%*%t(A_individual[,1:2])),2)
-# actually still not extremely convincing
-round(diag(A_individual[,1:3]%*%t(A_individual[,1:3])),2) # probably best model. Weird, because not concsistent with all other measures
-
-
-#### PREDICTION
-loadings_countries <- data.matrix(country_value_matrix[,3:12])%*%data.matrix(pca_individual$rotation[,1:2])
-#### BIPLOT
-biplot(pca_individual(country_value_matrix[,3:12]))
-biplot(princomp(country_value_matrix[,3:12]))
-
-screeplot(princomp(country_value_matrix[,3:12]), type="lines")
+biplot(pca_country,pc.biplot=TRUE,xlim=c(-3,3),ylim=c(-3,3))
