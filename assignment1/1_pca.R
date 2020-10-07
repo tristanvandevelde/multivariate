@@ -49,6 +49,7 @@ for (i in 1:10) {
   samp <- sample(seq(1,34), size=34, replace=TRUE)
   bootstrap_individual[,i] <- values_stand[samp, i] # +2 because first 2 variables not needed
 }
+bootstrap_individual <- scale(bootstrap_individual, center = TRUE, scale = TRUE)
 # maybe standardize this thing?
 pca_bootstrapped_individual <- prcomp(bootstrap_individual)
 plot(c(1:10),pca_individual$sdev[1:10]^2, type="b", xlab="component", ylab="eigenvalue")
@@ -66,11 +67,6 @@ round(diag(A_individual[,1:4]%*%t(A_individual[,1:4])),2)
 round(diag(A_individual[,1:5]%*%t(A_individual[,1:5])),2)
 # not a lot of improvement anymore
 
-# not looking good
-#round(diag(A[,1:3]%*%t(A[,1:3])),2)
-# not much change
-#round(diag(A[,1:1]%*%t(A[,1:1])),2)
-# why is this not working?
-#round(diag(A[,1:10]%*%t(A[,1:10])),2)
+#### PREDICTION
 
-## AWESOME, IT'S FINALLY WORKING: 2 COMPONENTS IS AGREED UPON BY ALL METRICS.
+#### BIPLOT
