@@ -59,6 +59,5 @@ fa_just_3_orthogonal$loadings[1:14,]
 fa_just_3_oblique <- fa(wvs_stand[1:14], 3, rotate="oblimin", fm="mle")
 print(fa_just_3, cutoff=0)
 
-#fa_just = <- factanal
 
 # safe factor scores and visualize for each factor the distribution for the 34 countries
