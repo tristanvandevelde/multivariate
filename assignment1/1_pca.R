@@ -36,8 +36,8 @@ A
 
 ## Determine number of components
 screeplot(pca_1, type="lines")
-# kaisers rule: how is this for standardized variables? (I think retain 3)
-# scree plot: 2 because elbow at 3
+abline(h=1, col="blue", lty=2)
+abline(v=4, col="red", lty=3)
 # TODO: boostrapped screeplot (horns procedure)
 bootstrap <- matrix(rep(0,34*10), ncol=10)
 for (i in 1:10) {
