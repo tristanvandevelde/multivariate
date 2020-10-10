@@ -56,9 +56,13 @@ efa_just_3_orthogonal$loadings[1:14,]
 efa_justifiability_3_oblique <- fa(justifiability_stand[1:14], 3, rotate="oblimin", fm="mle")
 print(fa_just_3, cutoff=0)
 
+# print to latex
+print(xtable(efa_justifiability_3_oblique))
 
 # safe factor scores and visualize for each factor the distribution for the 34 countries
 ### STEP 3: PREDICTION & VISUALIZATION
+
+# ORIGINAL VARIABLES
 ## Factor 1 and 2
 par(pty="s")
 plot(efa_justifiability_3_oblique$loadings[,1:2],xlim=c(-1,1),ylim=c(-1,1),cex=1.2)
@@ -77,3 +81,5 @@ plot(efa_justifiability_3_oblique$loadings[,2:3],xlim=c(-1,1),ylim=c(-1,1),cex=1
 pointLabel(efa_justifiability_3_oblique$loadings[,2:3], rownames(efa_justifiability_3_oblique$loadings[,2:3]), cex=1.2)
 abline(h=0)
 abline(v=0)
+
+# COUNTRIES

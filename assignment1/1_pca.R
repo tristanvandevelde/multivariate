@@ -46,9 +46,9 @@ for (i in 1:10) {
 bootstrap_country <- scale(bootstrap_country, center = TRUE, scale = TRUE)
 # maybe standardize this thing?
 pca_bootstrapped_country <- prcomp(bootstrap_country)
-plot(c(1:10),pca_country$sdev[1:10]^2, type="b", xlab="component", ylab="eigenvalue")
+plot(c(1:10),pca_country$sdev[1:10]^2, type="b", xlab="component", ylab="eigenvalue", bty="n", xaxp  = c(1, 10, 9))
 lines(c(1:10),pca_bootstrapped_country$sdev[1:10]^2, type="b", col="red")
-legend(8,3, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("black", "red"))
+legend(7,5, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("black", "red"))
 # include 95% CIs
 
 #### ANALYSIS & INTERPRETATION
@@ -58,6 +58,10 @@ round(pca_country$sdev^2,3)
 A_country <- pca_country$rotation%*%diag(pca_country$sdev)
 A_country
 summary(pca_country)
+round(diag(A_country[,1:1]%*%t(A_country[,1:1])),2)
 round(diag(A_country[,1:2]%*%t(A_country[,1:2])),2)
+round(diag(A_country[,1:3]%*%t(A_country[,1:3])),2)
+round(diag(A_country[,1:4]%*%t(A_country[,1:4])),2)
+
 
 biplot(pca_country,pc.biplot=TRUE,xlim=c(-3,3),ylim=c(-3,3))
