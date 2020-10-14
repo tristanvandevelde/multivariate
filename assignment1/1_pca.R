@@ -49,7 +49,7 @@ pca_bootstrapped_country <- prcomp(bootstrap_country)
 plot(c(1:10),pca_country$sdev[1:10]^2, type="b", xlab="component", ylab="eigenvalue", bty="n", xaxp  = c(1, 10, 9))
 lines(c(1:10),pca_bootstrapped_country$sdev[1:10]^2, type="b", col="red")
 legend(7,5, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("black", "red"))
-# include 95% CIs
+# OPTIONAL: Do multiple bootstraps (fe: 1000) and then compute the 2.5 and 92.5 percentile and fit the 95% confidence intervals.
 
 #### ANALYSIS & INTERPRETATION
 # eigenvalues: check explained variance
