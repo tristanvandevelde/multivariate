@@ -22,14 +22,23 @@ values_stand$V_tradition <- scale(wvs$V_tradition, center = TRUE, scale = TRUE)
 
 # compute matrix of 34 countries x 10 variables (mean score on standardized var)
 values_country <- aggregate(values_stand[,1:10], list(values_stand$country), mean)
+rownames(country_value_matrix) <- country_value_matrix[,1]
+country_value_df <- country_value_matrix[,3:12]
+country_value_df <- scale(country_value_df, center = TRUE, scale = TRUE)
+
 
 ################################
 ####### PCA ON COUNTRY DATA ####
 ################################
 
 #### MODEL FITTING
-values_country[,2:11] <- scale(values_country[,2:11], center = TRUE, scale = TRUE)
-pca_country <- prcomp(values_country[,2:11])
+pca_country <- prcomp(country_value_df)
+# eigenvalues
+round(pca_country$sdev^2,2)
+# proportion of explained variance
+round(pca_country$sdev^2/10,2)
+# summary
+summary(pca_country)
 
 #### COMPONENTS DETERMINATION
 # kaiser and screeplot
@@ -53,8 +62,7 @@ legend(7,5, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("bla
 
 #### ANALYSIS & INTERPRETATION
 # eigenvalues: check explained variance
-round(pca_country$sdev^2,3)
-summary(pca_country)
+
 # component loadings
 A_country <- pca_country$rotation%*%diag(pca_country$sdev)
 A_country
