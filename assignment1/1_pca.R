@@ -52,16 +52,15 @@ legend(7,5, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("bla
 # include 95% CIs
 
 #### ANALYSIS & INTERPRETATION
-# eigenvalues
+# eigenvalues: check explained variance
 round(pca_country$sdev^2,3)
+summary(pca_country)
 # component loadings
 A_country <- pca_country$rotation%*%diag(pca_country$sdev)
 A_country
-summary(pca_country)
 round(diag(A_country[,1:1]%*%t(A_country[,1:1])),2)
 round(diag(A_country[,1:2]%*%t(A_country[,1:2])),2)
 round(diag(A_country[,1:3]%*%t(A_country[,1:3])),2)
 round(diag(A_country[,1:4]%*%t(A_country[,1:4])),2)
-
 
 biplot(pca_country,pc.biplot=TRUE,xlim=c(-3,3),ylim=c(-3,3))
