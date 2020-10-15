@@ -48,16 +48,64 @@ abline(v=4, col="red", lty=2)
 
 
 ### STEP 2: FIT MODELS
+### NO ROTATION
+# no rotation 3
+efa_just_3_none <- factanal(justifiability_stand[1:14], factors=3)
+efa_just_3_none
+# differs significantly from perfectly fitting model
+
+# no rotation 4
+efa_just_4_none <- factanal(justifiability_stand[1:14], factors=4)
+efa_just_4_none
+# differs significantly from perfectly fitting model
+
+# no rotation 7
+efa_just_7_none <- factanal(justifiability_stand[1:14], factors=7)
+efa_just_7_none
+# differs significantly from perfectly fitting model
+
+# no rotation 9
+efa_just_9_none <- factanal(justifiability_stand[1:14], factors=9)
+efa_just_9_none
+# differs significantly from perfectly fitting model
+
+### ORTHOGONAL
+
 # orthogonal 3
-efa_just_3_orthogonal <- factanal(wvs_stand[1:14], 3, rotation = "varimax")
-efa_just_3_orthogonal$loadings[1:14,]
+efa_just_3_orthogonal <- factanal(justifiability_stand[1:14], factors=3, rotation = "varimax")
+efa_just_3_orthogonal
+# differs significantly from  perfectly fitting model
+#efa_just_3_orthogonal$loadings[1:14,]
+
+# orthogonal 5
+efa_just_5_orthogonal <- factanal(justifiability_stand[1:14], factors=5, rotation = "varimax")
+efa_just_5_orthogonal
+
+# orthogonal 7
+efa_just_7_orthogonal <- factanal(justifiability_stand[1:14], factors=7, rotation = "varimax")
+efa_just_7_orthogonal
+
+# orthogonal 9
+efa_just_9_orthogonal <- factanal(justifiability_stand[1:14], factors=9, rotation = "varimax")
+efa_just_9_orthogonal
 
 # oblique 3 (we expect this to be the best model)
 efa_justifiability_3_oblique <- fa(justifiability_stand[1:14], 3, rotate="oblimin", fm="mle")
+efa_justifiability_3_oblique
 print(fa_just_3, cutoff=0)
 
-# print to latex
-print(xtable(efa_justifiability_3_oblique))
+# oblique 3 (we expect this to be the best model)
+efa_justifiability_4_oblique <- fa(justifiability_stand[1:14], 4, rotate="oblimin", fm="mle")
+efa_justifiability_4_oblique
+
+# reproduce correlation matrix and check differences
+cormat<-cor(justifiability_stand)
+round(cormat-(crossprod(t(efa_justifiability_3_oblique$loadings))+diag(efa_justifiability_3_oblique$uniquenesses)),3)
+
+# compute residual correlations
+resid<-cormat- (crossprod(t(efa_justifiability_3_oblique$loadings))+diag(efa_justifiability_3_oblique$uniquenesses))
+n<-sum(ifelse(abs(resid)>0.05,1,0))/2
+print(n/(14*13/2))
 
 # safe factor scores and visualize for each factor the distribution for the 34 countries
 ### STEP 3: PREDICTION & VISUALIZATION

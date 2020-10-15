@@ -21,9 +21,9 @@ values_stand$V_tradition <- scale(wvs$V_tradition, center = TRUE, scale = TRUE)
 
 
 # compute matrix of 34 countries x 10 variables (mean score on standardized var)
-values_country <- aggregate(values_stand[,1:10], list(values_stand$country), mean)
+country_value_matrix <- aggregate(values_stand[,1:10], list(values_stand$country), mean)
 rownames(country_value_matrix) <- country_value_matrix[,1]
-country_value_df <- country_value_matrix[,3:12]
+country_value_df <- country_value_matrix[,2:11]
 country_value_df <- scale(country_value_df, center = TRUE, scale = TRUE)
 
 
