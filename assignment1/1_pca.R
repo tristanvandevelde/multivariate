@@ -66,6 +66,7 @@ legend(7,5, c("real data", "bootstrapped data"), bty="n", lty=c(1,1), col=c("bla
 # component loadings
 A_country <- pca_country$rotation%*%diag(pca_country$sdev)
 A_country
+# TODO: round values of loadings
 round(diag(A_country[,1:1]%*%t(A_country[,1:1])),2)
 round(diag(A_country[,1:2]%*%t(A_country[,1:2])),2)
 round(diag(A_country[,1:3]%*%t(A_country[,1:3])),2)

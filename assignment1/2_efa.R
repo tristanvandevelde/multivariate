@@ -42,13 +42,12 @@ ggcorrplot(cormat)
 pca_justifiability <- prcomp(justifiability_stand[c(1:14)])
 screeplot(pca_justifiability, type="lines")
 abline(h=1, col="blue", lty=2)
-abline(v=4, col="red", lty=2)
+abline(v=3, col="red", lty=2)
 # both scree plot and kaisers criterium indicate te retain 3 facts
 # Consistent with our intuition (3 factors: financial, sexual, violence)
 ### STEP 1B: COMPUTE PERCENTAGE OF NON-REDUNDANT RESIDUAL CORRELATIONS
-# 2 factors
 nonred_resid_corr <- function(f) {
-  efa_model <- factanal(justifiability_stand[1:14], factors=f)
+  efa_model <- factanal(justifiability_stand[1:14], factors=f, rotation="none")
   resid <-cormat - (crossprod(t(efa_model$loadings))+diag(efa_model$uniquenesses))
   n<-sum(ifelse(abs(resid)>0.05,1,0))/2
   print(n/(14*13/2))
@@ -58,7 +57,6 @@ for (i in c(1:7))
   print(i)
   nonred_resid_corr(i)
 }
-# 3 factors
 
 
 ### STEP 2: FIT MODELS
@@ -106,7 +104,7 @@ efa_just_9_orthogonal
 # oblique 3 (we expect this to be the best model)
 efa_justifiability_3_oblique <- fa(justifiability_stand[1:14], 3, rotate="oblimin", fm="mle")
 efa_justifiability_3_oblique
-print(fa_just_3, cutoff=0)
+print(efa_justifiability_3_oblique, cutoff=0)
 
 # oblique 3 (we expect this to be the best model)
 efa_justifiability_4_oblique <- fa(justifiability_stand[1:14], 4, rotate="oblimin", fm="mle")
