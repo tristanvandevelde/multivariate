@@ -39,10 +39,11 @@ round(cormat,2)
 ggcorrplot(cormat)
 
 ### STEP 1A: FIT PCA TO DETERMINE AMOUNT OF FACTORS
+# why does scree plot only go to 10, not to 14??
 pca_justifiability <- prcomp(justifiability_stand[c(1:14)])
 screeplot(pca_justifiability, type="lines")
 abline(h=1, col="blue", lty=2)
-abline(v=3, col="red", lty=2)
+abline(v=4, col="red", lty=2)
 # both scree plot and kaisers criterium indicate te retain 3 facts
 # Consistent with our intuition (3 factors: financial, sexual, violence)
 ### STEP 1B: COMPUTE PERCENTAGE OF NON-REDUNDANT RESIDUAL CORRELATIONS
@@ -61,6 +62,11 @@ for (i in c(1:7))
 
 ### STEP 2: FIT MODELS
 ### NO ROTATION
+# no rotation 2
+efa_just_2_none <- factanal(justifiability_stand[1:14], factors=2)
+efa_just_2_none
+# differs significantly from perfectly fitting model
+
 # no rotation 3
 efa_just_3_none <- factanal(justifiability_stand[1:14], factors=3)
 efa_just_3_none
@@ -79,7 +85,7 @@ efa_just_7_none
 # no rotation 9
 efa_just_9_none <- factanal(justifiability_stand[1:14], factors=9)
 efa_just_9_none
-# differs significantly from perfectly fitting model
+# does not differ significantly from perfectly fitting model
 
 ### ORTHOGONAL
 
@@ -106,7 +112,7 @@ efa_justifiability_3_oblique <- fa(justifiability_stand[1:14], 3, rotate="oblimi
 efa_justifiability_3_oblique
 print(efa_justifiability_3_oblique, cutoff=0)
 
-# oblique 3 (we expect this to be the best model)
+# oblique 4 
 efa_justifiability_4_oblique <- fa(justifiability_stand[1:14], 4, rotate="oblimin", fm="mle")
 efa_justifiability_4_oblique
 
