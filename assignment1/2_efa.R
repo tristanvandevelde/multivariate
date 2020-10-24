@@ -62,6 +62,11 @@ for (i in c(1:7))
 
 ### STEP 2: FIT MODELS
 ### NO ROTATION
+# no rotation 1
+efa_just_1_none <- factanal(justifiability_stand[1:14], factors=1)
+efa_just_1_none
+# differs significantly from perfectly fitting model
+
 # no rotation 2
 efa_just_2_none <- factanal(justifiability_stand[1:14], factors=2)
 efa_just_2_none
@@ -77,44 +82,28 @@ efa_just_4_none <- factanal(justifiability_stand[1:14], factors=4)
 efa_just_4_none
 # differs significantly from perfectly fitting model
 
-# no rotation 7
-efa_just_7_none <- factanal(justifiability_stand[1:14], factors=7)
-efa_just_7_none
+# no rotation 4
+efa_just_4_none <- factanal(justifiability_stand[1:14], factors=5)
+efa_just_4_none
 # differs significantly from perfectly fitting model
 
 # no rotation 9
 efa_just_9_none <- factanal(justifiability_stand[1:14], factors=9)
 efa_just_9_none
-# does not differ significantly from perfectly fitting model
+# does not differ significantly from perfectly fitting model -> at last
 
-### ORTHOGONAL
 
+### CHECK FOR ROTATION
 # orthogonal 3
 efa_just_3_orthogonal <- factanal(justifiability_stand[1:14], factors=3, rotation = "varimax")
 efa_just_3_orthogonal
-# differs significantly from  perfectly fitting model
 #efa_just_3_orthogonal$loadings[1:14,]
-
-# orthogonal 5
-efa_just_5_orthogonal <- factanal(justifiability_stand[1:14], factors=5, rotation = "varimax")
-efa_just_5_orthogonal
-
-# orthogonal 7
-efa_just_7_orthogonal <- factanal(justifiability_stand[1:14], factors=7, rotation = "varimax")
-efa_just_7_orthogonal
-
-# orthogonal 9
-efa_just_9_orthogonal <- factanal(justifiability_stand[1:14], factors=9, rotation = "varimax")
-efa_just_9_orthogonal
 
 # oblique 3 (we expect this to be the best model)
 efa_justifiability_3_oblique <- fa(justifiability_stand[1:14], 3, rotate="oblimin", fm="mle")
 efa_justifiability_3_oblique
 print(efa_justifiability_3_oblique, cutoff=0)
-
-# oblique 4 
-efa_justifiability_4_oblique <- fa(justifiability_stand[1:14], 4, rotate="oblimin", fm="mle")
-efa_justifiability_4_oblique
+efa_justifiability_3_oblique$loadings
 
 # reproduce correlation matrix and check differences
 cormat<-cor(justifiability_stand)
@@ -149,3 +138,28 @@ abline(h=0)
 abline(v=0)
 
 # COUNTRIES
+
+country_value_matrix <- aggregate(values_stand[,1:10], list(values_stand$country), mean)
+country_just_matrix <- aggregate(justifiability_stand[,1:14], list(justifiability_stand$country), mean)
+
+
+# save scores per car model and carid
+score<-cbind(na.omit(car)[,1:2],fact4obl$scores)
+# distribution Factor 1 per car model
+R> par(pty="s")
+R> par(las = 1,cex=1.2) # all axis labels horizontal R> par(oma=c(2,6,2,2)) # increase space for labels R> boxplot(score$ML1~score$carid,horizontal=TRUE,
+xlab="factor score",main="F1: fun to drive")
+# distribution Factor 2 per car model R> par(pty="s")
+R> par(las = 1,cex=1.2)
+R> par(oma=c(2,6,2,2))
+R> boxplot(score$ML2~score$carid,horizontal=TRUE,
+           xlab="factor score",main="F2: dependable, comfortable, safe")
+
+# distribution Factor 3 per car model R> par(pty="s")
+R> par(las = 1,cex=1.2)
+R> par(oma=c(2,6,2,2))
+R> boxplot(score$ML3~score$carid,horizontal=TRUE, xlab="factor score",main="F3: suited for off road driving")
+# distribution Factor 4 per car model R> par(pty="s")
+R> par(las = 1,cex=1.2)
+R> par(oma=c(2,6,2,2))
+R> boxplot(score$ML4~score$carid,horizontal=TRUE, xlab="factor score",main="F4: family-oriented")
