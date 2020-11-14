@@ -5,8 +5,9 @@ library(xtable)
 library(psych)
 library(GPArotation)
 library(maptools)
+#library(postscript)
 #load("data/wvs.Rdata")
-load("/Users/tristanvandevelde/Documents/Dev/multivariate/assignment1/data/wvs.Rdata")
+load("/Users/tristanvandevelde/Documents/Dev/learning/multivariate/assignment1/data/wvs.Rdata")
 
 #### PREPROCESSING
 ##################
@@ -141,30 +142,27 @@ abline(v=0)
 
 # COUNTRIES
 
-first_half = c("Armenia", "Australia")
-
-# save scores per car model and carid
+# save scores per country
 score <- cbind(justifiability_stand[,c(1,16)],efa_justifiability_3_oblique$scores)
-# distribution Factor 1 per car model
-par(pty="s")
-par(las = 1,cex=1.2) # all axis labels horizontal 
-par(oma=c(2,6,2,2)) # increase space for labels 
-boxplot(score$ML1~score$country,horizontal=TRUE, xlab="factor score",main="F1: fun to drive")
+#score <- score[order(-country),]
 
-## distribution Factor 2 per car model 
-score <- score[order(-country),]
-#par(pty="s")
-#par(las = 2,cex=1.2)
+## distribution Factor 1 per country
 par(las=2)
-#par(oma=c(1,1,1,1))
-#par(mar=c(1,2,2,1))
-boxplot(score$ML2~score$country, horizontal=FALSE, xlab="", ylab="factor score", main="F2: dependable, comfortable, safe")
+par(oma=c(1,1,1,1))
+par(pin=c(12,4))
+options(repr.plot.width=10, repr.plot.height=4)
+boxplot(score$ML1~score$country, horizontal=FALSE, xlab="", ylab="factor score", main="F1: Fraudulence")
 
-# distribution Factor 3 per car model R> par(pty="s")
-#R> par(las = 1,cex=1.2)
-#R> par(oma=c(2,6,2,2))
-#R> boxplot(score$ML3~score$carid,horizontal=TRUE, xlab="factor score",main="F3: suited for off road driving")
-## distribution Factor 4 per car model R> par(pty="s")
-#R> par(las = 1,cex=1.2)
-#R> par(oma=c(2,6,2,2))
-#R> boxplot(score$ML4~score$carid,horizontal=TRUE, xlab="factor score",main="F4: family-oriented")
+## distribution Factor 2 per country
+par(las=2)
+par(oma=c(1,1,1,1))
+par(pin=c(12,4))
+options(repr.plot.width=6, repr.plot.height=4)
+boxplot(score$ML2~score$country, horizontal=FALSE, xlab="", ylab="factor score", main="F2: Sexuality")
+
+## distribution Factor 3 per country
+par(las=2)
+par(oma=c(1,1,1,1))
+par(pin=c(12,4))
+options(repr.plot.width=6, repr.plot.height=4)
+boxplot(score$ML3~score$country, horizontal=FALSE, xlab="", ylab="factor score", main="F3: Violence")

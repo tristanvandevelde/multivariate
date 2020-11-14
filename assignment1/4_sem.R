@@ -10,8 +10,8 @@ Malaysia <- filter(wvs[,16:33], country=="Malaysia")
 Malaysia <- Malaysia[,1:17]
 
 #database for Netherlands
-Neth <- filter(wvs[,16:33], country=="Netherlands")
-Neth <- Neth[,1:17]
+Netherlands <- filter(wvs[,16:33], country=="Netherlands")
+Netherlands <- Netherlands[,1:17]
 
 
 #building the model
@@ -25,19 +25,32 @@ model.sem <- '#measurement model
   religion =~ NA*R_attend_religious_services + R_pray + R_importance_God
   
   #structural model
-  religion ~~ sex + fraud + violence + suicide
+  sex ~ religion
+  fraud ~ religion 
+  violence ~ religion
+  suicide ~ religion
 
   #variances of latent variables
   religion ~~ 1*religion
  '
 #check the model fitting for the Netherlands
-sem.Neth <- sem(model.sem, data = Neth)
+sem.Neth <- sem(model.sem, data = Netherlands)
 summary(sem.Neth, standardized = TRUE)
 fitmeasures(sem.Neth, c("chisq","df","pvalue","cfi","tli","rmsea","srmr"))
 
 #checking for indices to improve
 modificationindices(sem.Neth, sort=TRUE)
 
+#calculating the reliability
+rel.Neth<-standardizedSolution(sem.Neth)
+#sex factor
+(sum(rel.Neth[1:5,4]^2))^2/((sum(rel.Neth[1:5,4]^2))^2+sum(1-rel.Neth[1:5,4]^2))
+#fraud factor
+(sum(rel.Neth[6:10,4]^2))^2/((sum(rel.Neth[6:10,4]^2))^2+sum(1-rel.Neth[6:10,4]^2))
+#violence
+(sum(rel.Neth[11:13,4]^2))^2/((sum(rel.Neth[11:13,4]^2))^2+sum(1-rel.Neth[11:13,4]^2))
+#religion
+(sum(rel.Neth[15:17,4]^2))^2/((sum(rel.Neth[15:17,4]^2))^2+sum(1-rel.Neth[15:17,4]^2))
 
 #check the model fitting for Malaysia
 sem.Mal <- sem(model.sem, data = Malaysia)
@@ -47,5 +60,19 @@ fitmeasures(sem.Mal, c("chisq","df","pvalue","cfi","tli","rmsea","srmr"))
 #checking for indices to improve
 modificationindices(sem.Mal, sort=TRUE)
 
+#calculating the reliability
+rel.Mal<-standardizedSolution(sem.Mal)
+rel.Mal
+#sex factor
+(sum(rel.Mal[1:5,4]^2))^2/((sum(rel.Mal[1:5,4]^2))^2+sum(1-rel.Mal[1:5,4]^2))
+#fraud factor
+(sum(rel.Mal[6:10,4]^2))^2/((sum(rel.Mal[6:10,4]^2))^2+sum(1-rel.Mal[6:10,4]^2))
+#violence
+(sum(rel.Mal[11:13,4]^2))^2/((sum(rel.Mal[11:13,4]^2))^2+sum(1-rel.Mal[11:13,4]^2))
+#religion
+(sum(rel.Mal[15:17,4]^2))^2/((sum(rel.Mal[15:17,4]^2))^2+sum(1-rel.Mal[15:17,4]^2))
 
-
+#we have unacceptable level of reliablilty on religion factor
+#so we analyse the correlation matrix to make sure that the indicators do not correlate
+cor.Mal <- cor(Malaysia[,15:17])
+cor.Mal
